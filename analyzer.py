@@ -44,12 +44,25 @@ weak_passwords = [
     "letmein"
 ]
 
+common_patterns = [
+    "1234",
+    "abcd",
+    "qwerty",
+    "asdf",
+    "password",
+    "admin"
+]
+
 def check_password_strength(password):
     score = 0
     suggestions = []
     if password.lower() in weak_passwords:
         return 0, ["This password appears in a common password list. Choose a stronger password."]
     
+    for pattern in common_patterns:
+        if pattern in password.lower():
+            suggestions.append("Avoid predictable patterns like '1234', 'abcd', or keyboard sequences")
+            break
 
     if len(password) >= 8:
         score += 1
@@ -75,7 +88,7 @@ def check_password_strength(password):
         score += 1
     else:
         suggestions.append("Add special characters")
-
+    
     return score, suggestions
 
 
