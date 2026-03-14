@@ -19,6 +19,19 @@ def calculate_entropy(password):
     entropy = len(password) * math.log2(charset)
     return round(entropy, 2)
 
+def estimate_crack_time(entropy):
+    guesses_per_second = 1e9
+    seconds = (2 ** entropy) / guesses_per_second
+
+    if seconds < 60:
+        return f"{round(seconds,2)} seconds"
+    elif seconds < 3600:
+        return f"{round(seconds/60,2)} minutes"
+    elif seconds < 86400:
+        return f"{round(seconds/3600,2)} hours"
+    else:
+        return f"{round(seconds/86400,2)} days"
+
 # Common weak passwords (sample database)
 weak_passwords = [
     "password",
@@ -81,6 +94,7 @@ def main():
     print("\nPassword Strength:", strength)
     entropy = calculate_entropy(password)
     print("Password Entropy:", entropy, "bits")
+    print("Estimated crack time:", estimate_crack_time(entropy))
 
     if suggestions:
         print("\nSuggestions:")
