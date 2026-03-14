@@ -1,8 +1,23 @@
 import re
 
+# Common weak passwords (sample database)
+weak_passwords = [
+    "password",
+    "123456",
+    "123456789",
+    "qwerty",
+    "abc123",
+    "password123",
+    "admin",
+    "letmein"
+]
+
 def check_password_strength(password):
     score = 0
     suggestions = []
+    if password.lower() in weak_passwords:
+        return 0, ["This password appears in a common password list. Choose a stronger password."]
+    
 
     if len(password) >= 8:
         score += 1
